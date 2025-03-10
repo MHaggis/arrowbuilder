@@ -1,3 +1,5 @@
+"use client";
+
 import ArrowTuningCalculator from '../components/ArrowTuningCalculator'
 
 export default function Home() {
