@@ -114,28 +114,22 @@ const ArrowTuningCalculator = () => {
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="build" className="w-full">
-            <TabsList className="grid grid-cols-2 md:grid-cols-4 mb-4">
+            <TabsList className="grid grid-cols-1 sm:grid-cols-3 mb-4">
               <TabsTrigger value="build">
                 <span className="flex items-center">
                   <ArrowLeft className="mr-2 h-4 w-4 hidden sm:inline-block" />
-                  <span>Build</span>
+                  <span>Build Arrow</span>
                 </span>
               </TabsTrigger>
               <TabsTrigger value="performance">
                 <span className="flex items-center">
                   <ArrowRight className="mr-2 h-4 w-4 hidden sm:inline-block" />
-                  <span>Performance</span>
-                </span>
-              </TabsTrigger>
-              <TabsTrigger value="tuning">
-                <span className="flex items-center">
-                  <Crosshair className="mr-2 h-4 w-4 hidden sm:inline-block" />
-                  <span>Tuning</span>
+                  <span>Bow Settings</span>
                 </span>
               </TabsTrigger>
               <TabsTrigger value="results">
                 <span className="flex items-center">
-                  <AlertCircle className="mr-2 h-4 w-4 hidden sm:inline-block" />
+                  <Crosshair className="mr-2 h-4 w-4 hidden sm:inline-block" />
                   <span>Results</span>
                 </span>
               </TabsTrigger>
@@ -387,206 +381,6 @@ const ArrowTuningCalculator = () => {
                       <p className="text-sm text-gray-500 mt-1">
                         From chronograph or manufacturer IBO/ATA rating
                       </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="tuning">
-              <Card>
-                <CardContent className="pt-6">
-                  <h2 className="text-lg md:text-xl font-semibold mb-4">Tuning</h2>
-
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="font-semibold mb-2">Arrow Components</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium mb-1">Material</label>
-                          <select 
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
-                            value={shaft.material}
-                            onChange={(e) => setShaft({...shaft, material: e.target.value})}
-                          >
-                            {shaftMaterials.map(mat => (
-                              <option key={mat} value={mat}>{mat}</option>
-                            ))}
-                          </select>
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium mb-1">Length (inches)</label>
-                          <input 
-                            type="number" 
-                            value={shaft.length} 
-                            onChange={(e) => setShaft({...shaft, length: parseFloat(e.target.value)})}
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
-                            step="0.25"
-                            min="20"
-                            max="36"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium mb-1">Weight (grains/inch)</label>
-                          <input 
-                            type="number" 
-                            value={shaft.weight} 
-                            onChange={(e) => setShaft({...shaft, weight: parseFloat(e.target.value)})}
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
-                            step="0.1"
-                            min="5"
-                            max="15"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium mb-1">Diameter (mm)</label>
-                          <input 
-                            type="number" 
-                            value={shaft.diameter * 25.4} // Convert inches to mm for display
-                            onChange={(e) => setShaft({...shaft, diameter: (parseFloat(e.target.value) || 0) / 25.4})} // Store as inches internally for calculations
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
-                            step="0.1"
-                            min="4"
-                            max="12"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="font-semibold mb-2">Tip/Broadhead</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium mb-1">Type</label>
-                          <select 
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
-                            value={tip.type}
-                            onChange={(e) => setTip({...tip, type: e.target.value})}
-                          >
-                            {tipTypes.map(type => (
-                              <option key={type} value={type}>{type}</option>
-                            ))}
-                          </select>
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium mb-1">Weight (grains)</label>
-                          <input 
-                            type="number" 
-                            value={tip.weight} 
-                            onChange={(e) => setTip({...tip, weight: parseFloat(e.target.value)})}
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
-                            step="5"
-                            min="75"
-                            max="200"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="font-semibold mb-2">Insert</h3>
-                      <div>
-                        <label className="block text-sm font-medium mb-1">Weight (grains)</label>
-                        <input 
-                          type="number" 
-                          value={insert.weight} 
-                          onChange={(e) => setInsert({...insert, weight: parseFloat(e.target.value)})}
-                          className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
-                          step="1"
-                          min="0"
-                          max="100"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="font-semibold mb-2">Vanes/Fletching</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium mb-1">Type</label>
-                          <select 
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
-                            value={vanes.type}
-                            onChange={(e) => setVanes({...vanes, type: e.target.value})}
-                          >
-                            {vaneTypes.map(type => (
-                              <option key={type} value={type}>{type}</option>
-                            ))}
-                          </select>
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium mb-1">Count</label>
-                          <select 
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
-                            value={vanes.count}
-                            onChange={(e) => setVanes({...vanes, count: parseInt(e.target.value) || 3})}
-                          >
-                            <option value={2}>2</option>
-                            <option value={3}>3</option>
-                            <option value={4}>4</option>
-                          </select>
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium mb-1">Length (inches)</label>
-                          <input 
-                            type="number" 
-                            value={vanes.length} 
-                            onChange={(e) => setVanes({...vanes, length: parseFloat(e.target.value)})}
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
-                            step="0.1"
-                            min="1"
-                            max="5"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium mb-1">Height (inches)</label>
-                          <input 
-                            type="number" 
-                            value={vanes.height} 
-                            onChange={(e) => setVanes({...vanes, height: parseFloat(e.target.value)})}
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
-                            step="0.1"
-                            min="0.1"
-                            max="2"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium mb-1">Weight (grains per vane)</label>
-                          <input 
-                            type="number" 
-                            value={vanes.weight} 
-                            onChange={(e) => setVanes({...vanes, weight: parseFloat(e.target.value)})}
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
-                            step="0.5"
-                            min="1"
-                            max="20"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="font-semibold mb-2">Nock</h3>
-                      <div>
-                        <label className="block text-sm font-medium mb-1">Weight (grains)</label>
-                        <input 
-                          type="number" 
-                          value={nock.weight} 
-                          onChange={(e) => setNock({...nock, weight: parseFloat(e.target.value)})}
-                          className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
-                          step="1"
-                          min="5"
-                          max="20"
-                        />
-                      </div>
                     </div>
                   </div>
                 </CardContent>
