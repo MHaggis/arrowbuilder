@@ -1,4 +1,4 @@
-import ArrowTuningCalculator from '@/components/ArrowTuningCalculator'
+import ArrowTuningCalculator from '../components/ArrowTuningCalculator'
 
 export default function Home() {
   return (
