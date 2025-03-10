@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
-import { ArrowLeft, ArrowRight, Crosshair, AlertCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Crosshair, AlertCircle, Target, Award, Clock } from 'lucide-react';
 
 const ArrowTuningCalculator = () => {
   // State for arrow components and measurements
@@ -107,50 +107,56 @@ const ArrowTuningCalculator = () => {
   const vaneTypes = ['Plastic', 'Feather', 'Hybrid'];
   
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      <Card className="shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-xl md:text-2xl text-center">Arrow Tuning Calculator</CardTitle>
+    <div className="w-full max-w-4xl mx-auto z-10">
+      <Card className="arrow-card">
+        <CardHeader className="arrow-header">
+          <CardTitle className="text-xl md:text-2xl flex items-center justify-center">
+            <Target className="mr-2 h-6 w-6" />
+            Arrow Tuning Calculator
+          </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4 md:p-6">
           <Tabs defaultValue="build" className="w-full">
-            <TabsList className="grid grid-cols-1 sm:grid-cols-3 mb-4">
-              <TabsTrigger value="build">
+            <TabsList className="grid grid-cols-1 sm:grid-cols-3 mb-6 p-1 tab-gradient rounded-lg">
+              <TabsTrigger value="build" className="text-white data-[state=active]:bg-white data-[state=active]:text-green-800">
                 <span className="flex items-center">
-                  <ArrowLeft className="mr-2 h-4 w-4 hidden sm:inline-block" />
+                  <ArrowLeft className="mr-2 h-4 w-4" />
                   <span>Build Arrow</span>
                 </span>
               </TabsTrigger>
-              <TabsTrigger value="performance">
+              <TabsTrigger value="performance" className="text-white data-[state=active]:bg-white data-[state=active]:text-green-800">
                 <span className="flex items-center">
-                  <ArrowRight className="mr-2 h-4 w-4 hidden sm:inline-block" />
+                  <Clock className="mr-2 h-4 w-4" />
                   <span>Bow Settings</span>
                 </span>
               </TabsTrigger>
-              <TabsTrigger value="results">
+              <TabsTrigger value="results" className="text-white data-[state=active]:bg-white data-[state=active]:text-green-800">
                 <span className="flex items-center">
-                  <Crosshair className="mr-2 h-4 w-4 hidden sm:inline-block" />
+                  <Award className="mr-2 h-4 w-4" />
                   <span>Results</span>
                 </span>
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="build">
-              <Card>
+              <Card className="border-0 shadow-none">
                 <CardContent className="pt-6">
-                  <h2 className="text-lg md:text-xl font-semibold mb-4">Arrow Components</h2>
+                  <h2 className="text-lg md:text-xl font-semibold mb-6 text-green-800 border-b pb-2">Arrow Components</h2>
 
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="font-semibold mb-2">Shaft</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-8">
+                    <div className="shaft-bg p-4 rounded-xl shadow-sm">
+                      <h3 className="font-semibold mb-4 text-gray-800 flex items-center">
+                        <ArrowRight className="mr-2 h-5 w-5 text-green-600" />
+                        Shaft
+                      </h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                          <label className="block text-sm font-medium mb-1">Length (inches)</label>
+                          <label className="block text-sm font-medium mb-1 text-gray-700">Length (inches)</label>
                           <input 
                             type="number" 
                             value={shaft.length} 
                             onChange={(e) => setShaft({...shaft, length: parseFloat(e.target.value)})}
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
+                            className="arrow-input w-full p-2 border"
                             step="0.25"
                             min="20"
                             max="36"
@@ -158,12 +164,12 @@ const ArrowTuningCalculator = () => {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium mb-1">Weight (grains/inch)</label>
+                          <label className="block text-sm font-medium mb-1 text-gray-700">Weight (grains/inch)</label>
                           <input 
                             type="number" 
                             value={shaft.weight} 
                             onChange={(e) => setShaft({...shaft, weight: parseFloat(e.target.value)})}
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
+                            className="arrow-input w-full p-2 border"
                             step="0.1"
                             min="5"
                             max="15"
@@ -171,9 +177,9 @@ const ArrowTuningCalculator = () => {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium mb-1">Material</label>
+                          <label className="block text-sm font-medium mb-1 text-gray-700">Material</label>
                           <select 
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
+                            className="arrow-input w-full p-2 border"
                             value={shaft.material}
                             onChange={(e) => setShaft({...shaft, material: e.target.value})}
                           >
@@ -184,12 +190,12 @@ const ArrowTuningCalculator = () => {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium mb-1">Diameter (mm)</label>
+                          <label className="block text-sm font-medium mb-1 text-gray-700">Diameter (mm)</label>
                           <input 
                             type="number" 
                             value={shaft.diameter * 25.4} // Convert inches to mm for display
                             onChange={(e) => setShaft({...shaft, diameter: (parseFloat(e.target.value) || 0) / 25.4})} // Store as inches internally for calculations
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
+                            className="arrow-input w-full p-2 border"
                             step="0.1"
                             min="4"
                             max="12"
@@ -198,13 +204,16 @@ const ArrowTuningCalculator = () => {
                       </div>
                     </div>
 
-                    <div>
-                      <h3 className="font-semibold mb-2">Tip/Broadhead</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="tip-bg p-4 rounded-xl shadow-sm">
+                      <h3 className="font-semibold mb-4 text-gray-800 flex items-center">
+                        <ArrowLeft className="mr-2 h-5 w-5 text-blue-600" />
+                        Tip/Broadhead
+                      </h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                          <label className="block text-sm font-medium mb-1">Type</label>
+                          <label className="block text-sm font-medium mb-1 text-gray-700">Type</label>
                           <select 
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
+                            className="arrow-input w-full p-2 border"
                             value={tip.type}
                             onChange={(e) => setTip({...tip, type: e.target.value})}
                           >
@@ -215,12 +224,12 @@ const ArrowTuningCalculator = () => {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium mb-1">Weight (grains)</label>
+                          <label className="block text-sm font-medium mb-1 text-gray-700">Weight (grains)</label>
                           <input 
                             type="number" 
                             value={tip.weight} 
                             onChange={(e) => setTip({...tip, weight: parseFloat(e.target.value)})}
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
+                            className="arrow-input w-full p-2 border"
                             step="5"
                             min="75"
                             max="200"
@@ -229,15 +238,18 @@ const ArrowTuningCalculator = () => {
                       </div>
                     </div>
 
-                    <div>
-                      <h3 className="font-semibold mb-2">Insert</h3>
+                    <div className="nock-bg p-4 rounded-xl shadow-sm">
+                      <h3 className="font-semibold mb-4 text-gray-800 flex items-center">
+                        <div className="mr-2 h-4 w-4 bg-orange-400 rounded-full"></div>
+                        Insert
+                      </h3>
                       <div>
-                        <label className="block text-sm font-medium mb-1">Weight (grains)</label>
+                        <label className="block text-sm font-medium mb-1 text-gray-700">Weight (grains)</label>
                         <input 
                           type="number" 
                           value={insert.weight} 
                           onChange={(e) => setInsert({...insert, weight: parseFloat(e.target.value)})}
-                          className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
+                          className="arrow-input w-full p-2 border"
                           step="1"
                           min="0"
                           max="100"
@@ -245,13 +257,16 @@ const ArrowTuningCalculator = () => {
                       </div>
                     </div>
 
-                    <div>
-                      <h3 className="font-semibold mb-2">Vanes/Fletching</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="vanes-bg p-4 rounded-xl shadow-sm">
+                      <h3 className="font-semibold mb-4 text-gray-800 flex items-center">
+                        <div className="mr-2 h-4 w-4 border-r-2 border-t-2 border-b-2 border-purple-400 rounded-r-full"></div>
+                        Vanes/Fletching
+                      </h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                          <label className="block text-sm font-medium mb-1">Type</label>
+                          <label className="block text-sm font-medium mb-1 text-gray-700">Type</label>
                           <select 
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
+                            className="arrow-input w-full p-2 border"
                             value={vanes.type}
                             onChange={(e) => setVanes({...vanes, type: e.target.value})}
                           >
@@ -262,9 +277,9 @@ const ArrowTuningCalculator = () => {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium mb-1">Count</label>
+                          <label className="block text-sm font-medium mb-1 text-gray-700">Count</label>
                           <select 
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
+                            className="arrow-input w-full p-2 border"
                             value={vanes.count}
                             onChange={(e) => setVanes({...vanes, count: parseInt(e.target.value) || 3})}
                           >
@@ -275,12 +290,12 @@ const ArrowTuningCalculator = () => {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium mb-1">Length (inches)</label>
+                          <label className="block text-sm font-medium mb-1 text-gray-700">Length (inches)</label>
                           <input 
                             type="number" 
                             value={vanes.length} 
                             onChange={(e) => setVanes({...vanes, length: parseFloat(e.target.value)})}
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
+                            className="arrow-input w-full p-2 border"
                             step="0.1"
                             min="1"
                             max="5"
@@ -288,12 +303,12 @@ const ArrowTuningCalculator = () => {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium mb-1">Height (inches)</label>
+                          <label className="block text-sm font-medium mb-1 text-gray-700">Height (inches)</label>
                           <input 
                             type="number" 
                             value={vanes.height} 
                             onChange={(e) => setVanes({...vanes, height: parseFloat(e.target.value)})}
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
+                            className="arrow-input w-full p-2 border"
                             step="0.1"
                             min="0.1"
                             max="2"
@@ -301,12 +316,12 @@ const ArrowTuningCalculator = () => {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium mb-1">Weight (grains per vane)</label>
+                          <label className="block text-sm font-medium mb-1 text-gray-700">Weight (grains per vane)</label>
                           <input 
                             type="number" 
                             value={vanes.weight} 
                             onChange={(e) => setVanes({...vanes, weight: parseFloat(e.target.value)})}
-                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
+                            className="arrow-input w-full p-2 border"
                             step="0.5"
                             min="1"
                             max="20"
@@ -315,15 +330,18 @@ const ArrowTuningCalculator = () => {
                       </div>
                     </div>
 
-                    <div>
-                      <h3 className="font-semibold mb-2">Nock</h3>
+                    <div className="nock-bg p-4 rounded-xl shadow-sm">
+                      <h3 className="font-semibold mb-4 text-gray-800 flex items-center">
+                        <div className="mr-2 h-5 w-2 bg-orange-500 rounded-full"></div>
+                        Nock
+                      </h3>
                       <div>
-                        <label className="block text-sm font-medium mb-1">Weight (grains)</label>
+                        <label className="block text-sm font-medium mb-1 text-gray-700">Weight (grains)</label>
                         <input 
                           type="number" 
                           value={nock.weight} 
                           onChange={(e) => setNock({...nock, weight: parseFloat(e.target.value)})}
-                          className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
+                          className="arrow-input w-full p-2 border"
                           step="1"
                           min="5"
                           max="20"
@@ -336,51 +354,61 @@ const ArrowTuningCalculator = () => {
             </TabsContent>
 
             <TabsContent value="performance">
-              <Card>
+              <Card className="border-0 shadow-none">
                 <CardContent className="pt-6">
-                  <h2 className="text-lg md:text-xl font-semibold mb-4">Bow Settings</h2>
+                  <h2 className="text-lg md:text-xl font-semibold mb-6 text-green-800 border-b pb-2">Bow Settings</h2>
 
-                  <div className="space-y-6">
-                    <div>
-                      <label className="block text-sm font-medium mb-1">Draw Weight (lbs)</label>
-                      <input 
-                        type="number" 
-                        value={drawWeight} 
-                        onChange={(e) => setDrawWeight(parseFloat(e.target.value))}
-                        className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
-                        step="5"
-                        min="30"
-                        max="90"
-                      />
-                    </div>
+                  <div className="space-y-8">
+                    <div className="bg-gradient-to-br from-blue-50 to-green-50 p-4 rounded-xl shadow-sm">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-sm font-medium mb-1 text-gray-700">Draw Weight (lbs)</label>
+                          <input 
+                            type="number" 
+                            value={drawWeight} 
+                            onChange={(e) => setDrawWeight(parseFloat(e.target.value))}
+                            className="arrow-input w-full p-2 border"
+                            step="5"
+                            min="30"
+                            max="80"
+                          />
+                          <p className="mt-1 text-xs text-gray-500">
+                            Typical hunting bows: 45-70 lbs
+                          </p>
+                        </div>
 
-                    <div>
-                      <label className="block text-sm font-medium mb-1">Draw Length (inches)</label>
-                      <input 
-                        type="number" 
-                        value={drawLength} 
-                        onChange={(e) => setDrawLength(parseFloat(e.target.value))}
-                        className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
-                        step="0.5"
-                        min="24"
-                        max="32"
-                      />
-                    </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-1 text-gray-700">Draw Length (inches)</label>
+                          <input 
+                            type="number" 
+                            value={drawLength} 
+                            onChange={(e) => setDrawLength(parseFloat(e.target.value))}
+                            className="arrow-input w-full p-2 border"
+                            step="0.5"
+                            min="24"
+                            max="32"
+                          />
+                          <p className="mt-1 text-xs text-gray-500">
+                            From bow measurements or wingspan/2.5
+                          </p>
+                        </div>
 
-                    <div>
-                      <label className="block text-sm font-medium mb-1">Arrow Speed (fps)</label>
-                      <input 
-                        type="number" 
-                        value={arrowSpeed} 
-                        onChange={(e) => setArrowSpeed(parseFloat(e.target.value))}
-                        className="w-full p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
-                        step="5"
-                        min="200"
-                        max="350"
-                      />
-                      <p className="text-sm text-gray-500 mt-1">
-                        From chronograph or manufacturer IBO/ATA rating
-                      </p>
+                        <div className="md:col-span-2">
+                          <label className="block text-sm font-medium mb-1 text-gray-700">Arrow Speed (fps)</label>
+                          <input 
+                            type="number" 
+                            value={arrowSpeed} 
+                            onChange={(e) => setArrowSpeed(parseFloat(e.target.value))}
+                            className="arrow-input w-full p-2 border"
+                            step="5"
+                            min="200"
+                            max="350"
+                          />
+                          <p className="mt-1 text-xs text-gray-500">
+                            From chronograph or manufacturer IBO/ATA rating
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -388,13 +416,16 @@ const ArrowTuningCalculator = () => {
             </TabsContent>
 
             <TabsContent value="results">
-              <Card>
+              <Card className="border-0 shadow-none">
                 <CardContent className="pt-6">
-                  <h2 className="text-lg md:text-xl font-semibold mb-4">Arrow Specifications</h2>
+                  <h2 className="text-lg md:text-xl font-semibold mb-6 text-green-800 border-b pb-2">Arrow Specifications</h2>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                    <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-                      <h3 className="font-semibold text-green-800 mb-2">FOC</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div className="result-card result-green p-4">
+                      <h3 className="font-semibold text-green-800 mb-2 flex items-center">
+                        <Target className="mr-2 h-4 w-4" />
+                        FOC
+                      </h3>
                       <div className="text-2xl md:text-3xl font-bold text-green-800">{results.foc}%</div>
                       <p className="text-xs sm:text-sm text-gray-600 mt-2">
                         Target: 10-15% | Hunting: 12-19%
@@ -413,24 +444,42 @@ const ArrowTuningCalculator = () => {
                       )}
                     </div>
                     
-                    <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                      <h3 className="font-semibold text-blue-800 mb-2">Total Weight</h3>
+                    <div className="result-card result-blue p-4">
+                      <h3 className="font-semibold text-blue-800 mb-2 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                          <path d="M2 17l10 5 10-5"></path>
+                          <path d="M2 12l10 5 10-5"></path>
+                        </svg>
+                        Total Weight
+                      </h3>
                       <div className="text-2xl md:text-3xl font-bold text-blue-800">{results.totalWeight} gr</div>
                       <p className="text-xs sm:text-sm text-gray-600 mt-2">
                         Hunting: 400-500gr | Target: 300-400gr
                       </p>
                     </div>
                     
-                    <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
-                      <h3 className="font-semibold text-purple-800 mb-2">Kinetic Energy</h3>
+                    <div className="result-card result-purple p-4">
+                      <h3 className="font-semibold text-purple-800 mb-2 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                          <line x1="12" y1="2" x2="12" y2="12"></line>
+                        </svg>
+                        Kinetic Energy
+                      </h3>
                       <div className="text-2xl md:text-3xl font-bold text-purple-800">{results.kineticEnergy} ft-lbs</div>
                       <p className="text-xs sm:text-sm text-gray-600 mt-2">
                         Small game: 25+ | Deer: 40+ | Elk: 60+
                       </p>
                     </div>
                     
-                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                      <h3 className="font-semibold text-gray-800 mb-2">Momentum</h3>
+                    <div className="result-card result-gray p-4">
+                      <h3 className="font-semibold text-gray-800 mb-2 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M12 2v4M5 5l2.5 2.5M19 5l-2.5 2.5M5 19l2.5-2.5M19 19l-2.5-2.5M2 12h4M18 12h4M12 18v4"></path>
+                        </svg>
+                        Momentum
+                      </h3>
                       <div className="text-2xl md:text-3xl font-bold text-gray-800">{results.momentum}</div>
                       <p className="text-xs sm:text-sm text-gray-600 mt-2">
                         Higher values = better penetration
@@ -438,12 +487,12 @@ const ArrowTuningCalculator = () => {
                     </div>
                   </div>
                   
-                  <div className="mt-6 bg-gray-50 p-4 rounded-lg">
-                    <h3 className="font-semibold mb-2">Arrow Balance Point</h3>
-                    <div className="relative h-10 sm:h-12 bg-gray-200 rounded-md overflow-hidden mt-2">
+                  <div className="mt-8 bg-gradient-to-r from-gray-50 to-gray-100 p-4 rounded-xl shadow-sm">
+                    <h3 className="font-semibold mb-4 text-gray-800">Arrow Balance Point</h3>
+                    <div className="relative h-10 sm:h-12 bg-white rounded-md overflow-hidden mt-2 border">
                       <div className="absolute top-0 bottom-0 left-0 right-0 flex items-center">
                         <div 
-                          className="absolute h-full w-1 bg-red-500"
+                          className="absolute h-full w-1 bg-green-500"
                           style={{ left: `${(parseFloat(results.balancePoint) / shaft.length) * 100}%` }}
                         ></div>
                         
